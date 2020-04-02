@@ -52,6 +52,7 @@ class App extends Component {
             <form onSubmit={this.handleSubmit}>
               <FieldControl
                 name="option"
+                strict={false}
                 render={({ onChange, value }) => (
                   <Select
                     options={this.state.options}
