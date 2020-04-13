@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { render } from "react-dom";
 import Hello from "./Hello";
 import "./style.css";
@@ -11,6 +11,77 @@ import {
 } from "react-reactive-form";
 import TextField from '@material-ui/core/TextField';
 
+function App() {
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+		setTimeout(() => {
+      setOptions([
+        { value: "chocolate", label: "Chocolate" },
+        { value: "strawberry", label: "Strawberry" },
+        { value: "vanilla", label: "Vanilla" }
+      ]);
+    }, 1000)
+	}, []);
+
+  
+  const form = FormBuilder.group({
+    name: ["", Validators.required],
+    option: ["", Validators.required]
+  });
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log("Form values", form.value);
+  };
+
+  const handleReset = () => {
+    form.reset();
+  };
+
+  return (
+      <div>
+        <p>Start editing to see some magic happen :)</p>
+        <FieldGroup
+          control={form}
+          render={({ get, invalid }) => (
+            <form onSubmit={handleSubmit}>
+              <FieldControl 
+                name="name"
+                strict={false}
+                render={({ onChange, value = '' }) => (
+                  <TextField 
+                  id="standard-basic" 
+                  label="Standard" 
+                  value={value}
+                  onChange={onChange}
+                  />
+                )}
+              />
+              <FieldControl
+                name="option"
+                strict={false}
+                render={({ onChange, value }) => (
+                  <Select
+                    options={options}
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              />
+              <button type="button" onClick={handleReset}>
+                Reset
+              </button>
+              <button type="submit" disabled={invalid}>
+                Submit
+              </button>
+            </form>
+          )}
+        />
+      </div>
+    );
+
+}
+/*
 class App extends Component {
   constructor() {
     super();
@@ -88,5 +159,5 @@ class App extends Component {
     );
   }
 }
-
+*/
 render(<App />, document.getElementById("root"));
