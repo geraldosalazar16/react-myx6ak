@@ -9,6 +9,7 @@ import {
   FieldControl,
   Validators
 } from "react-reactive-form";
+import TextField from '@material-ui/core/TextField';
 
 class App extends Component {
   constructor() {
@@ -29,6 +30,7 @@ class App extends Component {
   }
 
   form = FormBuilder.group({
+    name: ["", Validators.required],
     option: ["", Validators.required]
   });
 
@@ -50,6 +52,18 @@ class App extends Component {
           control={this.form}
           render={({ get, invalid }) => (
             <form onSubmit={this.handleSubmit}>
+              <FieldControl 
+                name="name"
+                strict={false}
+                render={({ onChange, value }) => (
+                  <TextField 
+                  id="standard-basic" 
+                  label="Standard" 
+                  value={value}
+                  onChange={onChange}
+                  />
+                )}
+              />
               <FieldControl
                 name="option"
                 strict={false}
